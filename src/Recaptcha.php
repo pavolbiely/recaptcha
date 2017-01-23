@@ -17,6 +17,10 @@ class Recaptcha extends Nette\Forms\Controls\BaseControl
 
         $this->setRequired(true);
         $this->addRule(function (Nette\Forms\IControl $control) {
+            if (!isset($_POST['g-recaptcha-response'])) {
+                return false;
+            }
+
             $context = $control->getForm()->getPresenter()->getContext();
 
             $recaptchaUrl = 'https://www.google.com/recaptcha/api/siteverify?' . http_build_query([
